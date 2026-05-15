@@ -68,7 +68,7 @@ async def visit(session, url, token, uid, data):
         app.logger.error(f"❌ Visit error: {e}")
         return False, None
 
-async def send_until_10000_success(tokens, uid, server_name, target_success=10000):
+async def send_until_1000_success(tokens, uid, server_name, target_success=1000):
     url = get_url(server_name)
     connector = aiohttp.TCPConnector(limit=0)
     total_success = 0
@@ -107,7 +107,7 @@ async def send_until_10000_success(tokens, uid, server_name, target_success=1000
 def send_visits(server, uid):
     server = server.upper()
     tokens = load_tokens(server)
-    target_success = 10000
+    target_success = 1000
 
     if not tokens:
         return jsonify({"error": "❌ No valid tokens found"}), 500
@@ -115,7 +115,7 @@ def send_visits(server, uid):
     print(f"🚀 Sending visits to UID: {uid} using {len(tokens)} tokens")
     print(f"Waiting for total {target_success} successful visits...")
 
-    total_success, total_sent, player_info = asyncio.run(send_until_10000_success(
+    total_success, total_sent, player_info = asyncio.run(send_until_1000_success(
         tokens, uid, server,
         target_success=target_success
     ))
